@@ -124,6 +124,58 @@ public class ProductController {
         }
     }
 
+
+    /**
+     * Get all distinct categories
+     * select distinct category from product
+     *
+     * @return List<String>, and HttpStatus
+     * @throws Exception .
+     */
+    @GetMapping("/products/category")
+    public ResponseEntity<List<String>> getCategories() throws Exception {
+        log.info("Get categories");
+
+        try {
+            Optional<List<String>> categories = repository.getDistinctCategories();
+
+            log.info("Returned categories: {}", categories.get());
+
+            return new ResponseEntity<>(categories.get(), HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Get categories: {}", e.getMessage());
+
+            throw e;
+        }
+    }
+
+    /**
+     * Get products by category
+     *
+     * @param category Category string in URL
+     * @return List<Product, and HttpStatus
+            * @throws Exception .
+     */
+    @GetMapping("/products/category/{category}")
+    public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable String category) throws Exception {
+        log.info("Get products by category : {}", category);
+
+        try {
+            Optional<List<Product>> products = repository.findProductsByCategory(category);
+
+            log.info("Returned 3 of.. products by category: {}", products.get().subList(0,3));
+
+            return new ResponseEntity<>(products.get(), HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Get products by category: {}", e.getMessage());
+
+            throw e;
+        }
+    }
+
+
+
+
     /**
      * Create product.
      *
@@ -222,51 +274,4 @@ public class ProductController {
         }
     }
 
-    /**
-     * Get all distinct categories
-     * select distinct category from product
-     *
-     * @return List<String>, and HttpStatus
-     * @throws Exception .
-     */
-    @GetMapping("/products/category")
-    public ResponseEntity<List<String>> getCategories() throws Exception {
-        log.info("Get categories");
-
-        try {
-            Optional<List<String>> categories = repository.getDistinctCategories();
-
-            log.info("Returned categories: {}", categories.get());
-
-            return new ResponseEntity<>(categories.get(), HttpStatus.OK);
-        } catch (Exception e) {
-            log.error("Get categories: {}", e.getMessage());
-
-            throw e;
-        }
-    }
-
-    /**
-     * Get products by category
-     *
-     * @param category Category string in URL
-     * @return List<Product, and HttpStatus
-     * @throws Exception .
-     */
-    @GetMapping("/products/category/{category}")
-    public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable String category) throws Exception {
-        log.info("Get products by category : {}", category);
-
-        try {
-            Optional<List<Product>> products = repository.findProductsByCategory(category);
-
-            log.info("Returned 3 of.. products by category: {}", products.get().subList(0,3));
-
-            return new ResponseEntity<>(products.get(), HttpStatus.OK);
-        } catch (Exception e) {
-            log.error("Get products by category: {}", e.getMessage());
-
-            throw e;
-        }
-    }
 }
