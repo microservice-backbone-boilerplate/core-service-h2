@@ -23,9 +23,7 @@ public class ProductController {
     @Autowired
     ProductRepository repository;
 
-//  L2 REST   separate GET/POST/DELETE/PUT requests @GetMapping ..
-//  L3 REST   HATEOS (return also next actions
-//  /product/1
+//  Read ops
 
     /**
      * Get product by Id
@@ -199,8 +197,11 @@ public class ProductController {
         }
     }
 
+//  Service ops
 
 
+
+//  CreateUpdateDelete ops
 
     /**
      * Create product.
