@@ -4,15 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.server.mvc.ControllerLinkBuilder;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -161,7 +158,8 @@ public class ProductController {
         log.info("Get products by category : {}", category);
 
         try {
-            Optional<List<Product>> products = repository.findProductsByCategory(category);
+            //todo: support lowercase categories
+            Optional<List<Product>> products = repository.findByCategory(category);
 
             log.info("Returned 3 of.. products by category: {}", products.get().subList(0,3));
 
